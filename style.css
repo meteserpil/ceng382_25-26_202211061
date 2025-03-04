@@ -1,0 +1,129 @@
+/* General Styling */
+body {
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Apply GIF Background */
+.background {
+    background: url('best.gif') no-repeat center center/cover;
+}
+
+/* Scroll Container */
+.scroll-container {
+    text-align: center;
+}
+
+/* Scroll Button */
+.map-scroll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 60px;
+    background: url('pirate-map.jpg') no-repeat center center/cover;
+    background-size: cover;
+    border-radius: 30px;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+    transform-origin: center top;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+/* Before Hover (Rolled-Up Scroll Ends) */
+.map-scroll::before,
+.map-scroll::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    background: #8b4513;
+    border-radius: 15px;
+    left: 0;
+}
+
+.map-scroll::before {
+    top: 0;
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.map-scroll::after {
+    bottom: 0;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Text Inside Scroll */
+.scroll-content {
+    font-size: 14px;
+    color: #003366; /* Dark Blue */
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Hover Effect (Unroll the Map) */
+.map-scroll:hover {
+    height: 200px; /* Expands */
+    border-radius: 10px;
+    transition: height 0.5s ease-in-out;
+}
+
+/* Make Text Appear When Hovering */
+.map-scroll:hover .scroll-content {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Pirate-Themed Background for Login Page */
+.login-container {
+    background: url('pirate-map.jpg') no-repeat center center/cover; /* Use a pirate-style map */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    width: 350px;
+    color: #003366; /* Dark Blue Text */
+    border: 3px solid #8b4513; /* Dark brown to match pirate wood */
+}
+
+/* Styling for Input Fields */
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 2px solid #8b4513; /* Dark brown border */
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7); /* Darker input background */
+    color: #003366; /* Dark Blue Text */
+}
+
+/* Styling for Buttons */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #b22222; /* Dark Red - Pirate Flag color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #8b0000; /* Even darker red */
+}
+
+/* Forgot Password & Create Account Links */
+.links a {
+    color: #003366; /* Dark Blue Links */
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
