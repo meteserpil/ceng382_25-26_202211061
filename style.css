@@ -1,0 +1,189 @@
+/* Body and Background */
+body.background {
+    background: url('best.gif') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+}
+
+/* Scroll Container */
+.scroll-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Map Scroll Button */
+.map-scroll {
+    display: block;
+    width: 200px;
+    height: 200px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.map-scroll:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* Pirate Map Styling */
+.pirate-map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #f5deb3; /* Light brown color for the map */
+    border: 5px solid #8b4513; /* Dark brown border */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.map-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 10px dashed #8b4513; /* Dashed border for the map */
+    box-sizing: border-box;
+}
+
+.map-details {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.x-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.x-mark::before,
+.x-mark::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    top: 50%;
+    left: 0;
+    transform: rotate(90deg);
+}
+
+.dotted-path {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border: 2px dotted #000;
+    border-radius: 50%;
+}
+
+/* Login Wrapper (Centers Clock and Login Form) */
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Pirate Frame Styling */
+.pirate-frame {
+    background-color: #f5deb3; /* Light brown color for the frame */
+    border: 10px solid #8b4513; /* Dark brown border */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    margin-bottom: 20px; /* Space between clock frame and login form */
+}
+
+/* Clock Frame Styling */
+.clock-frame {
+    width: 200px; /* Adjust width as needed */
+    text-align: center;
+}
+
+/* Clock Styling */
+.clock {
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-size: 24px;
+    color: #8b4513; /* Dark brown color */
+}
+
+/* Login Container Styling */
+.login-container {
+    background-color: #fff8dc; /* Light parchment color */
+    border: 5px solid #8b4513; /* Dark brown border */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-form h2 {
+    margin-top: 0;
+    text-align: center;
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+}
+
+.login-form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #8b4513;
+    border-radius: 5px;
+    background-color: #fff8dc; /* Light parchment color */
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #8b4513;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+}
+
+.login-form button:hover {
+    background-color: #5a2e0c;
+}
+
+.extras {
+    margin-top: 15px;
+    text-align: center;
+    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-size: 14px;
+    color: #8b4513; /* Dark brown color */
+}
+
+.extras a {
+    color: #8b4513; /* Dark brown color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease;
+}
+
+.extras a:hover {
+    color: #5a2e0c; /* Darker brown on hover */
+}
