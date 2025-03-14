@@ -1,4 +1,4 @@
-/* Body and Background */
+
 body.background {
     background: url('best.gif') no-repeat center center fixed;
     background-size: cover;
@@ -8,10 +8,9 @@ body.background {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-family: 'Pirata One', cursive; 
 }
 
-/* Scroll Container */
 .scroll-container {
     display: flex;
     justify-content: center;
@@ -19,7 +18,6 @@ body.background {
     height: 100vh;
 }
 
-/* Map Scroll Button */
 .map-scroll {
     display: block;
     width: 200px;
@@ -30,16 +28,16 @@ body.background {
 }
 
 .map-scroll:hover {
-    transform: scale(1.1); /* Slight zoom on hover */
+    transform: scale(1.1);
 }
 
-/* Pirate Map Styling */
+/* tasarladığım korsan haritasının kod kısımları burdan başlıyor */
 .pirate-map {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #f5deb3; /* Light brown color for the map */
-    border: 5px solid #8b4513; /* Dark brown border */
+    background-color: #f5deb3; 
+    border: 5px solid #8b4513; 
     border-radius: 10px;
     overflow: hidden;
 }
@@ -92,7 +90,6 @@ body.background {
     border-radius: 50%;
 }
 
-/* Login Wrapper (Centers Clock and Login Form) */
 .login-wrapper {
     display: flex;
     flex-direction: column;
@@ -102,34 +99,33 @@ body.background {
     height: 100%;
 }
 
-/* Pirate Frame Styling */
+
 .pirate-frame {
-    background-color: #f5deb3; /* Light brown color for the frame */
-    border: 10px solid #8b4513; /* Dark brown border */
+    background-color: #f5deb3; 
+    border: 10px solid #8b4513;
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     position: relative;
-    margin-bottom: 20px; /* Space between clock frame and login form */
+    margin-bottom: 20px; 
 }
 
-/* Clock Frame Styling */
 .clock-frame {
-    width: 200px; /* Adjust width as needed */
+    width: 200px; 
     text-align: center;
 }
 
-/* Clock Styling */
+
 .clock {
-    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-family: 'Pirata One', cursive;
     font-size: 24px;
-    color: #8b4513; /* Dark brown color */
+    color: #8b4513;
 }
 
 /* Login Container Styling */
 .login-container {
-    background-color: #fff8dc; /* Light parchment color */
-    border: 5px solid #8b4513; /* Dark brown border */
+    background-color: #fff8dc; 
+    border: 5px solid #8b4513;
     border-radius: 10px;
     padding: 20px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
@@ -138,7 +134,7 @@ body.background {
 .login-form h2 {
     margin-top: 0;
     text-align: center;
-    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-family: 'Pirata One', cursive;
 }
 
 .login-form label {
@@ -152,7 +148,7 @@ body.background {
     margin-bottom: 10px;
     border: 1px solid #8b4513;
     border-radius: 5px;
-    background-color: #fff8dc; /* Light parchment color */
+    background-color: #fff8dc; 
 }
 
 .login-form button {
@@ -163,7 +159,7 @@ body.background {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-family: 'Pirata One', cursive; 
 }
 
 .login-form button:hover {
@@ -173,17 +169,17 @@ body.background {
 .extras {
     margin-top: 15px;
     text-align: center;
-    font-family: 'Pirata One', cursive; /* Pirate-themed font */
+    font-family: 'Pirata One', cursive;
     font-size: 14px;
-    color: #8b4513; /* Dark brown color */
+    color: #8b4513; 
 }
 
 .extras a {
-    color: #8b4513; /* Dark brown color */
-    text-decoration: none; /* Remove underline */
+    color: #8b4513; 
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .extras a:hover {
-    color: #5a2e0c; /* Darker brown on hover */
+    color: #5a2e0c; 
 }

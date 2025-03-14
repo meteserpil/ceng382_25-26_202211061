@@ -1,0 +1,110 @@
+body {
+    background-color: #ad950d; 
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 25px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+button {
+    padding: 12px;
+    font-size: 16px;
+    background: #006400;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+button:hover {
+    background: #388E3C;
+}
+
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: rgb(203, 9, 9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+th {
+    background: #333333;
+    color: white;
+    padding: 15px 20px;
+    font-size: 16px;
+    text-align: center;
+    border: 2px solid #fff;
+    width: 33.33%; 
+    height: 50px; 
+}
+
+
+td {
+    padding: 15px 20px; 
+    font-size: 14px;
+    text-align: center;
+    border: 2px solid #ddd;
+    width: 33.33%; 
+    height: 50px; 
+}
+
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+
+tr:hover {
+    background: #e0f2f1;
+    transition: 0.3s;
+}
+
+
+tr, td, th {
+    height: 50px;
+    width: 33.33%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    
+    input, button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
