@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/meteserpil/Downloads/week2lab/LabProject/LabProject.csproj": {}
+    "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/LabProject.csproj": {}
   },
   "projects": {
-    "/Users/meteserpil/Downloads/week2lab/LabProject/LabProject.csproj": {
+    "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/LabProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/meteserpil/Downloads/week2lab/LabProject/LabProject.csproj",
+        "projectUniqueName": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/LabProject.csproj",
         "projectName": "LabProject",
-        "projectPath": "/Users/meteserpil/Downloads/week2lab/LabProject/LabProject.csproj",
+        "projectPath": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/LabProject.csproj",
         "packagesPath": "/Users/meteserpil/.nuget/packages/",
-        "outputPath": "/Users/meteserpil/Downloads/week2lab/LabProject/obj/",
+        "outputPath": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/meteserpil/.nuget/NuGet/NuGet.Config"
@@ -44,22 +44,6 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "dependencies": {
-            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[9.0.3, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.3, )"
-            },
-            "Microsoft.EntityFrameworkCore.Sqlite": {
-              "target": "Package",
-              "version": "[9.0.3, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
