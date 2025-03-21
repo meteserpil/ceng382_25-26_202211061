@@ -18,7 +18,6 @@
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/scopedcss/bundle/LabProject.styles.css
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/scopedcss/projectbundle/LabProject.bundle.scp.css
-/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/compressed/fneoaasoq4-0koamni527.gz
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/compressed/sygkliv830-lugek5hnai.gz
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/compressed/nuv2ifkd8m-dv7kyt77oh.gz
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/compressed/hgfenu8nsr-61n19gt1b8.gz
@@ -106,3 +105,4 @@
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/LabProject.pdb
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/LabProject.genruntimeconfig.cache
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/ref/LabProject.dll
+/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/LabProject/obj/Debug/net9.0/compressed/fneoaasoq4-thjzcbets5.gz
