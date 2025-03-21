@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="background">
+    <!-- scroll activation button that I've got assisted by AI -->
+    <div class="scroll-container">
+        <a href="#" id="activationButton" class="map-scroll">
+            <div class="pirate-map">
+                <div class="map-border"></div>
+                <div class="map-details">
+                    <div class="x-mark"></div>
+                    <div class="dotted-path"></div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- login kısmı -->
+    <div class="login-wrapper" style="display: none;">
+        <!--korsan temalı saat -->
+        <div class="pirate-frame clock-frame">
+            <div id="clock" class="clock"></div>
+        </div>
+        <!-- korsan temalı login parçası-->
+        <div class="pirate-frame">
+            <div class="login-container">
+                <form id="loginForm" class="login-form" action="login.html" method="post">
+                    <h2>Login</h2>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="additional-options">
+                    <a href="#" id="forgotPassword">Forgot Password?</a>
+                    <a href="#" id="createAccount">Create New Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- javascripte aktaran kısım-->
+    <script src="script.js"></script>
+</body>
+</html>
