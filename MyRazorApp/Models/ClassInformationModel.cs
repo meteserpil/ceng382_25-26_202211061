@@ -1,91 +1,45 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace MyRazorApp.Models;
-
-public class ClassInformationModel
+namespace MyRazorApp.Models
 {
-    // Static fields for in-memory storage
-    private static readonly List<ClassInformationModel> _classList = new();
-    private static int _idCounter = 1;
-
-    public ClassInformationModel()
+    public class ClassInformationModel
     {
-        Id = _idCounter++;
-        ClassName = string.Empty;
-        Description = string.Empty;
-        StudentCount = 1; // Default value
-    }
+        public int Id { get; set; }
+        public string ClassName { get; set; } = string.Empty;
+        public int StudentCount { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-    // Properties
-    public int Id { get; private set; }
+        private static readonly List<ClassInformationModel> _classes = new();
+        private static int _nextId = 1;
 
-    [Required(ErrorMessage = "Class name is required")]
-    [StringLength(100, ErrorMessage = "Class name cannot exceed 100 characters")]
-    public string ClassName { get; set; }
+        public static List<ClassInformationModel> GetAllClasses() => _classes;
 
-    [Required(ErrorMessage = "Student count is required")]
-    [Range(1, 1000, ErrorMessage = "Student count must be between 1 and 1000")]
-    public int StudentCount { get; set; }
+        public static ClassInformationModel? GetClassById(int id) => _classes.FirstOrDefault(c => c.Id == id);
 
-    [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters")]
-    public string Description { get; set; }
-
-    // CRUD Operations
-    public static void AddClass(ClassInformationModel newClass)
-    {
-        lock (_classList) // Thread-safe addition
+        public static void AddClass(ClassInformationModel classInfo)
         {
-            _classList.Add(newClass);
+            classInfo.Id = _nextId++;
+            _classes.Add(classInfo);
         }
-    }
 
-    public static bool EditClass(int id, string className, int studentCount, string description)
-    {
-        var classToEdit = _classList.FirstOrDefault(c => c.Id == id);
-        if (classToEdit == null) return false;
-
-        lock (classToEdit) // Thread-safe edit
+        public static void EditClass(int id, string className, int studentCount, string description)
         {
-            classToEdit.ClassName = className;
-            classToEdit.StudentCount = studentCount;
-            classToEdit.Description = description;
+            var classToEdit = GetClassById(id);
+            if (classToEdit != null)
+            {
+                classToEdit.ClassName = className;
+                classToEdit.StudentCount = studentCount;
+                classToEdit.Description = description;
+            }
         }
-        return true;
-    }
 
-    public static bool DeleteClass(int id)
-    {
-        var classToRemove = _classList.FirstOrDefault(c => c.Id == id);
-        if (classToRemove == null) return false;
-
-        lock (_classList) // Thread-safe removal
+        public static bool DeleteClass(int id)
         {
-            return _classList.Remove(classToRemove);
-        }
-    }
-
-    public static ClassInformationModel? GetClassById(int id)
-    {
-        return _classList.FirstOrDefault(c => c.Id == id);
-    }
-
-    public static List<ClassInformationModel> GetAllClasses()
-    {
-        lock (_classList) // Thread-safe read
-        {
-            return new List<ClassInformationModel>(_classList); // Return a copy
-        }
-    }
-
-    // Helper method to reset the static list (for testing)
-    public static void ClearAllClasses()
-    {
-        lock (_classList)
-        {
-            _classList.Clear();
-            _idCounter = 1;
+            var classToDelete = GetClassById(id);
+            if (classToDelete == null) return false;
+            
+            return _classes.Remove(classToDelete);
         }
     }
 }
