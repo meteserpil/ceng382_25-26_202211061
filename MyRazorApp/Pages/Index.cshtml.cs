@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Models;
+using MyRazorApp.Helpers;
 using System.Linq;
 
 namespace MyRazorApp.Pages
@@ -24,6 +25,12 @@ namespace MyRazorApp.Pages
 
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
+
+        [BindProperty(SupportsGet = true)]
+        public string? SelectedColumns { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool ExportFiltered { get; set; }
 
         public List<ClassInformationModel> Classes { get; set; } = new();
         public int TotalPages { get; set; }
@@ -62,6 +69,7 @@ namespace MyRazorApp.Pages
         {
             if (!ModelState.IsValid) return Page();
             ClassInformationModel.AddClass(NewClass);
+            TempData["HighlightClassId"] = NewClass.Id;
             return RedirectToPage();
         }
 
@@ -91,6 +99,7 @@ namespace MyRazorApp.Pages
                     NewClass.StudentCount,
                     NewClass.Description
                 );
+                TempData["HighlightClassId"] = EditId.Value;
             }
             return RedirectToPage();
         }
@@ -104,6 +113,44 @@ namespace MyRazorApp.Pages
         public IActionResult OnPostCancel()
         {
             return RedirectToPage();
+        }
+
+        public IActionResult OnGetExportJson(bool exportFiltered, string? selectedColumns)
+        {
+            var data = exportFiltered ? GetFilteredData() : ClassInformationModel.GetAllClasses();
+            
+            var columnsList = string.IsNullOrEmpty(selectedColumns) 
+                ? null 
+                : selectedColumns.Split(',').ToList();
+            
+            var json = Utils.Instance.ExportToJson(data, columnsList);
+            
+            return new FileContentResult(System.Text.Encoding.UTF8.GetBytes(json), "application/json")
+            {
+                FileDownloadName = $"classes_export_{DateTime.Now:yyyyMMddHHmmss}.json"
+            };
+        }
+
+        private List<ClassInformationModel> GetFilteredData()
+        {
+            var query = ClassInformationModel.GetAllClasses().AsQueryable();
+
+            if (!string.IsNullOrEmpty(FilterClassName))
+            {
+                query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (FilterMinStudents.HasValue)
+            {
+                query = query.Where(c => c.StudentCount >= FilterMinStudents.Value);
+            }
+
+            if (FilterMaxStudents.HasValue)
+            {
+                query = query.Where(c => c.StudentCount <= FilterMaxStudents.Value);
+            }
+
+            return query.ToList();
         }
     }
 }
