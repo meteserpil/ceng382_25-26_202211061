@@ -1,18 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyRazorApp.Models;
 using MyRazorApp.Helpers;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
+using System.Text.Json;
 
 namespace MyRazorApp.Pages
 {
+    public class ClassInfo
+    {
+        public int Id { get; set; }
+        [Required]
+        public string ClassName { get; set; } = string.Empty;
+        [Range(1, 1000)]
+        public int StudentCount { get; set; }
+        public string? Description { get; set; }
+    }
+
     public class IndexModel : PageModel
     {
+        // Form model
         [BindProperty]
-        public ClassInformationModel NewClass { get; set; } = new();
+        public ClassInfo NewClass { get; set; } = new();
 
         [BindProperty]
         public int? EditId { get; set; }
+
+        public List<ClassInfo> Classes { get; set; } = new();
 
         [BindProperty(SupportsGet = true)]
         public string? FilterClassName { get; set; }
@@ -23,42 +38,27 @@ namespace MyRazorApp.Pages
         [BindProperty(SupportsGet = true)]
         public int? FilterMaxStudents { get; set; }
 
-        [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
-
-        [BindProperty(SupportsGet = true)]
-        public string? SelectedColumns { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public bool ExportFiltered { get; set; }
-
-        public List<ClassInformationModel> Classes { get; set; } = new();
-        public int TotalPages { get; set; }
         public int PageSize { get; set; } = 10;
         public int TotalItems { get; set; }
+        public int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
 
-        public void OnGet()
+        private static List<ClassInfo> _allClasses = new();
+
+        public void OnGet(int? currentPage)
         {
-            var query = ClassInformationModel.GetAllClasses().AsQueryable();
+            CurrentPage = currentPage ?? 1;
+
+            var query = _allClasses.AsQueryable();
 
             if (!string.IsNullOrEmpty(FilterClassName))
-            {
                 query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
-            }
-
             if (FilterMinStudents.HasValue)
-            {
-                query = query.Where(c => c.StudentCount >= FilterMinStudents.Value);
-            }
-
+                query = query.Where(c => c.StudentCount >= FilterMinStudents);
             if (FilterMaxStudents.HasValue)
-            {
-                query = query.Where(c => c.StudentCount <= FilterMaxStudents.Value);
-            }
+                query = query.Where(c => c.StudentCount <= FilterMaxStudents);
 
             TotalItems = query.Count();
-            TotalPages = (int)Math.Ceiling(TotalItems / (double)PageSize);
-
             Classes = query
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
@@ -67,46 +67,65 @@ namespace MyRazorApp.Pages
 
         public IActionResult OnPostAdd()
         {
-            if (!ModelState.IsValid) return Page();
-            ClassInformationModel.AddClass(NewClass);
+            if (!ModelState.IsValid)
+            {
+                OnGet(CurrentPage);
+                return Page();
+            }
+
+            NewClass.Id = _allClasses.Any() ? _allClasses.Max(c => c.Id) + 1 : 1;
+            _allClasses.Add(NewClass);
+
             TempData["HighlightClassId"] = NewClass.Id;
             return RedirectToPage();
         }
 
         public IActionResult OnPostEdit(int id)
         {
-            var classToEdit = ClassInformationModel.GetClassById(id);
+            var classToEdit = _allClasses.FirstOrDefault(c => c.Id == id);
             if (classToEdit != null)
             {
-                EditId = id;
-                NewClass = new ClassInformationModel
+                EditId = classToEdit.Id;
+                NewClass = new ClassInfo
                 {
+                    Id = classToEdit.Id,
                     ClassName = classToEdit.ClassName,
                     StudentCount = classToEdit.StudentCount,
                     Description = classToEdit.Description
                 };
             }
+
+            OnGet(CurrentPage);
             return Page();
         }
 
         public IActionResult OnPostUpdate()
         {
-            if (ModelState.IsValid && EditId.HasValue)
+            if (!ModelState.IsValid || !EditId.HasValue)
             {
-                ClassInformationModel.EditClass(
-                    EditId.Value,
-                    NewClass.ClassName,
-                    NewClass.StudentCount,
-                    NewClass.Description
-                );
-                TempData["HighlightClassId"] = EditId.Value;
+                OnGet(CurrentPage);
+                return Page();
             }
+
+            var existing = _allClasses.FirstOrDefault(c => c.Id == EditId.Value);
+            if (existing != null)
+            {
+                existing.ClassName = NewClass.ClassName;
+                existing.StudentCount = NewClass.StudentCount;
+                existing.Description = NewClass.Description;
+
+                TempData["HighlightClassId"] = existing.Id;
+            }
+
             return RedirectToPage();
         }
 
         public IActionResult OnPostDelete(int id)
         {
-            ClassInformationModel.DeleteClass(id);
+            var toRemove = _allClasses.FirstOrDefault(c => c.Id == id);
+            if (toRemove != null)
+                _allClasses.Remove(toRemove);
+
             return RedirectToPage();
         }
 
@@ -115,42 +134,34 @@ namespace MyRazorApp.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnGetExportJson(bool exportFiltered, string? selectedColumns)
+        public IActionResult OnPostExportJson(string selectedColumns, bool exportFiltered)
         {
-            var data = exportFiltered ? GetFilteredData() : ClassInformationModel.GetAllClasses();
-            
-            var columnsList = string.IsNullOrEmpty(selectedColumns) 
-                ? null 
-                : selectedColumns.Split(',').ToList();
-            
-            var json = Utils.Instance.ExportToJson(data, columnsList);
-            
-            return new FileContentResult(System.Text.Encoding.UTF8.GetBytes(json), "application/json")
+            try
             {
-                FileDownloadName = $"classes_export_{DateTime.Now:yyyyMMddHHmmss}.json"
-            };
-        }
+                var selectedProps = !string.IsNullOrEmpty(selectedColumns) ? 
+                    selectedColumns.Split(',').ToList() : new List<string>();
 
-        private List<ClassInformationModel> GetFilteredData()
-        {
-            var query = ClassInformationModel.GetAllClasses().AsQueryable();
+                var query = _allClasses.AsQueryable();
 
-            if (!string.IsNullOrEmpty(FilterClassName))
-            {
-                query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
+                if (exportFiltered)
+                {
+                    if (!string.IsNullOrEmpty(FilterClassName))
+                        query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
+                    if (FilterMinStudents.HasValue)
+                        query = query.Where(c => c.StudentCount >= FilterMinStudents);
+                    if (FilterMaxStudents.HasValue)
+                        query = query.Where(c => c.StudentCount <= FilterMaxStudents);
+                }
+
+                var exportData = query.ToList();
+                var json = Utils.Instance.ExportToJson(exportData, selectedProps);
+                
+                return File(Encoding.UTF8.GetBytes(json), "application/json", "classes.json");
             }
-
-            if (FilterMinStudents.HasValue)
+            catch (Exception ex)
             {
-                query = query.Where(c => c.StudentCount >= FilterMinStudents.Value);
+                return Content("Error generating JSON file: " + ex.Message);
             }
-
-            if (FilterMaxStudents.HasValue)
-            {
-                query = query.Where(c => c.StudentCount <= FilterMaxStudents.Value);
-            }
-
-            return query.ToList();
         }
     }
 }

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "SCQHT91mr6Y=",
+  "dgSpecHash": "hsVYdHtiO6o=",
   "success": true,
   "projectFilePath": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/MyRazorApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/meteserpil/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

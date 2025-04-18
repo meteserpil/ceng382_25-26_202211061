@@ -96,3 +96,6 @@
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.pdb
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.genruntimeconfig.cache
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/ref/MyRazorApp.dll
+/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.csproj.AssemblyReference.cache
+/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.csproj.Up2Date
