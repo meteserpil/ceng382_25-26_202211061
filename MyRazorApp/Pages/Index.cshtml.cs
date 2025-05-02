@@ -32,6 +32,12 @@ namespace MyRazorApp.Pages
 
         public void OnGet()
         {
+            // Add this check to populate sample data if the database is empty
+            if (ClassInformationModel.GetAllClasses().Count == 0)
+            {
+                AddSampleClasses();
+            }
+
             var query = ClassInformationModel.GetAllClasses().AsQueryable();
 
             if (!string.IsNullOrEmpty(FilterClassName))
@@ -56,6 +62,22 @@ namespace MyRazorApp.Pages
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
+        }
+
+        private void AddSampleClasses()
+        {
+            int counter = 1;
+            while (counter <= 100)
+            {
+                var sampleClass = new ClassInformationModel
+                {
+                    ClassName = $"Class {counter}",
+                    StudentCount = new Random().Next(10, 50),
+                    Description = $"This is a sample description for Class {counter}"
+                };
+                ClassInformationModel.AddClass(sampleClass);
+                counter++;
+            }
         }
 
         public IActionResult OnPostAdd()
