@@ -16,6 +16,23 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
+        // Add 100 sample classes if the database is empty
+        if (AllClasses.Count == 0)
+        {
+            int counter = 1;
+            while (counter <= 100)
+            {
+                var sampleClass = new ClassInformationModel
+                {
+                    ClassName = $"Sample Class {counter}",
+                    StudentCount = new Random().Next(10, 50),
+                    Description = $"This is a sample class description for class {counter}."
+                };
+                
+                ClassInformationModel.AddClass(sampleClass);
+                counter++;
+            }
+        }
     }
 
     public IActionResult OnPostAdd()
