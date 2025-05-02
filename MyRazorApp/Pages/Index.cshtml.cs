@@ -45,6 +45,41 @@ namespace MyRazorApp.Pages
 
         private static List<ClassInfo> _allClasses = new();
 
+        public IndexModel()
+        {
+            // Initialize with 100 sample classes if empty
+            if (!_allClasses.Any())
+            {
+                GenerateSampleClasses();
+            }
+        }
+
+        private void GenerateSampleClasses()
+        {
+            string[] subjects = { "Math", "Science", "History", "English", "Art", "Music", "Physics", "Chemistry", "Biology", "Geography" };
+            string[] levels = { "Intro", "Basic", "Intermediate", "Advanced", "Honors", "AP" };
+            
+            int id = 1;
+            int classCount = 0;
+            
+            while (classCount < 100)
+            {
+                string subject = subjects[classCount % subjects.Length];
+                string level = levels[classCount % levels.Length];
+                int studentCount = new Random().Next(5, 100);
+                
+                _allClasses.Add(new ClassInfo
+                {
+                    Id = id++,
+                    ClassName = $"{subject} {level}",
+                    StudentCount = studentCount,
+                    Description = $"This is a {level.ToLower()} level class in {subject}."
+                });
+                
+                classCount++;
+            }
+        }
+
         public void OnGet(int? currentPage)
         {
             CurrentPage = currentPage ?? 1;
