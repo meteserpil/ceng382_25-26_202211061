@@ -1,0 +1,18 @@
+@page
+@model MyRazorApp.Pages.LogoutModel
+
+@{
+    ViewData["Title"] = "Logout";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                You have been logged out successfully.
+            </div>
+            <a href="/Login" class="btn btn-primary">Return to Login</a>
+        </div>
+    </div>
+</div>

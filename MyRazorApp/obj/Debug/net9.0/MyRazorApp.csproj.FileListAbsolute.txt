@@ -99,3 +99,4 @@
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/bin/Debug/net9.0/Newtonsoft.Json.dll
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.csproj.AssemblyReference.cache
 /Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/MyRazorApp.csproj.Up2Date
+/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz

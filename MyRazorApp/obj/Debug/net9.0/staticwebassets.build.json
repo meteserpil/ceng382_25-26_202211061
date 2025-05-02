@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Xm3ktHWWa7ZdFMauBQ07T8QFpQn9CTRVIsB/U3bwFF0=",
+  "Hash": "Dsi4zU9jsno0KUztCw6B+5gqpMEgFiBl2VmSuKpzVtM=",
   "Source": "MyRazorApp",
   "BasePath": "_content/MyRazorApp",
   "Mode": "Default",
@@ -857,6 +857,27 @@
       "OriginalItemSpec": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
     },
     {
+      "Identity": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz",
+      "SourceId": "MyRazorApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/MyRazorApp",
+      "RelativePath": "data/users#[.{fingerprint=z130s5mss4}]?.json.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "sqpfrnbmlk",
+      "Integrity": "FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json"
+    },
+    {
       "Identity": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/l54cks3koe-0j3bgjxly4.gz",
       "SourceId": "MyRazorApp",
       "SourceType": "Discovered",
@@ -1422,6 +1443,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json",
+      "SourceId": "MyRazorApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/",
+      "BasePath": "_content/MyRazorApp",
+      "RelativePath": "data/users#[.{fingerprint}]?.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "z130s5mss4",
+      "Integrity": "icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/data/users.json"
     },
     {
       "Identity": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/favicon.ico",
@@ -3022,6 +3064,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-Jncz+DGHbq3o3e/i5Y7X2s0zMc8buS/Wz09TLTxmcGo="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005464480874"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "182"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "227"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.json.gz",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "182"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.z130s5mss4.json",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.005464480874"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "182"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z130s5mss4"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.z130s5mss4.json",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "227"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z130s5mss4"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-icDW7IDSHgiwMJ/SPFhEWGWNxghITUpSYqM4amFUY5s="
+        }
+      ]
+    },
+    {
+      "Route": "data/users.z130s5mss4.json.gz",
+      "AssetFile": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/obj/Debug/net9.0/compressed/khtmvtm95k-z130s5mss4.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "182"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 02 May 2025 10:24:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "z130s5mss4"
+        },
+        {
+          "Name": "label",
+          "Value": "data/users.json.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FBc4HHeouxRSysajr06tK4KMQNTTeyiyfEnhjEjWIFM="
         }
       ]
     },

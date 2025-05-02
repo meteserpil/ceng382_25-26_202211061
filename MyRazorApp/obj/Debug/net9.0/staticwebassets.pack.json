@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
+      "Id": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/data/users.json",
+      "PackagePath": "staticwebassets/data/users.json"
+    },
+    {
       "Id": "/Users/meteserpil/Downloads/ceng382/ceng382_25-26_202211061/MyRazorApp/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
     },

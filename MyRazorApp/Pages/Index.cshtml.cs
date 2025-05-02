@@ -20,7 +20,6 @@ namespace MyRazorApp.Pages
 
     public class IndexModel : PageModel
     {
-        // Form model
         [BindProperty]
         public ClassInfo NewClass { get; set; } = new();
 
@@ -45,8 +44,13 @@ namespace MyRazorApp.Pages
 
         private static List<ClassInfo> _allClasses = new();
 
-        public void OnGet(int? currentPage)
+        public IActionResult OnGet(int? currentPage)
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             CurrentPage = currentPage ?? 1;
 
             var query = _allClasses.AsQueryable();
@@ -63,10 +67,41 @@ namespace MyRazorApp.Pages
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
+
+            return Page();
+        }
+
+        private bool IsUserAuthenticated()
+        {
+            // First check if session exists
+            var usernameSession = HttpContext.Session.GetString("username");
+            var tokenSession = HttpContext.Session.GetString("token");
+            var sessionIdSession = HttpContext.Session.GetString("session_id");
+
+            if (string.IsNullOrEmpty(usernameSession) || 
+                string.IsNullOrEmpty(tokenSession) || 
+                string.IsNullOrEmpty(sessionIdSession))
+            {
+                return false;
+            }
+
+            // Then verify cookies match session
+            var usernameCookie = Request.Cookies["username"];
+            var tokenCookie = Request.Cookies["token"];
+            var sessionIdCookie = Request.Cookies["session_id"];
+
+            return usernameCookie == usernameSession && 
+                   tokenCookie == tokenSession && 
+                   sessionIdCookie == sessionIdSession;
         }
 
         public IActionResult OnPostAdd()
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             if (!ModelState.IsValid)
             {
                 OnGet(CurrentPage);
@@ -82,6 +117,11 @@ namespace MyRazorApp.Pages
 
         public IActionResult OnPostEdit(int id)
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             var classToEdit = _allClasses.FirstOrDefault(c => c.Id == id);
             if (classToEdit != null)
             {
@@ -101,6 +141,11 @@ namespace MyRazorApp.Pages
 
         public IActionResult OnPostUpdate()
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             if (!ModelState.IsValid || !EditId.HasValue)
             {
                 OnGet(CurrentPage);
@@ -122,6 +167,11 @@ namespace MyRazorApp.Pages
 
         public IActionResult OnPostDelete(int id)
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             var toRemove = _allClasses.FirstOrDefault(c => c.Id == id);
             if (toRemove != null)
                 _allClasses.Remove(toRemove);
@@ -131,11 +181,21 @@ namespace MyRazorApp.Pages
 
         public IActionResult OnPostCancel()
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             return RedirectToPage();
         }
 
         public IActionResult OnPostExportJson(string selectedColumns, bool exportFiltered)
         {
+            if (!IsUserAuthenticated())
+            {
+                return RedirectToPage("Login");
+            }
+
             try
             {
                 var selectedProps = !string.IsNullOrEmpty(selectedColumns) ? 
