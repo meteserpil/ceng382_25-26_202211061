@@ -42,7 +42,36 @@ namespace MyRazorApp.Pages
         public int TotalItems { get; set; }
         public int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
 
-        private static List<ClassInfo> _allClasses = new();
+        private static List<ClassInfo> _allClasses = GenerateRandomClasses();
+
+        private static List<ClassInfo> GenerateRandomClasses()
+        {
+            var random = new Random();
+            var classList = new List<ClassInfo>();
+            string[] subjects = { "Math", "Science", "History", "English", "Physics", 
+                               "Chemistry", "Biology", "Art", "Music", "Geography" };
+            string[] levels = { "101", "201", "301", "Advanced", "Basic", "Intro" };
+            string[] descriptors = { "Fundamentals", "Principles", "Concepts", "Applications", "Theory" };
+
+            int id = 1;
+            while (id <= 100)
+            {
+                string subject = subjects[random.Next(subjects.Length)];
+                string level = levels[random.Next(levels.Length)];
+                string descriptor = descriptors[random.Next(descriptors.Length)];
+
+                classList.Add(new ClassInfo
+                {
+                    Id = id,
+                    ClassName = $"{subject} {level}",
+                    StudentCount = random.Next(15, 50),
+                    Description = $"{level} {descriptor} of {subject}"
+                });
+                id++;
+            }
+
+            return classList;
+        }
 
         public IActionResult OnGet(int? currentPage)
         {
@@ -73,7 +102,6 @@ namespace MyRazorApp.Pages
 
         private bool IsUserAuthenticated()
         {
-            // First check if session exists
             var usernameSession = HttpContext.Session.GetString("username");
             var tokenSession = HttpContext.Session.GetString("token");
             var sessionIdSession = HttpContext.Session.GetString("session_id");
@@ -85,7 +113,6 @@ namespace MyRazorApp.Pages
                 return false;
             }
 
-            // Then verify cookies match session
             var usernameCookie = Request.Cookies["username"];
             var tokenCookie = Request.Cookies["token"];
             var sessionIdCookie = Request.Cookies["session_id"];
