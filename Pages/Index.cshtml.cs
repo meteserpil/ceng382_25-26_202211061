@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using MyRazorApp.Data;
 using MyRazorApp.Helpers;
+using MyRazorApp.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -20,6 +23,13 @@ namespace MyRazorApp.Pages
 
     public class IndexModel : PageModel
     {
+        private readonly SchoolDbContext _context;
+
+        public IndexModel(SchoolDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         public ClassInfo NewClass { get; set; } = new();
 
@@ -42,38 +52,7 @@ namespace MyRazorApp.Pages
         public int TotalItems { get; set; }
         public int TotalPages => (int)Math.Ceiling(TotalItems / (double)PageSize);
 
-        private static List<ClassInfo> _allClasses = GenerateRandomClasses();
-
-        private static List<ClassInfo> GenerateRandomClasses()
-        {
-            var random = new Random();
-            var classList = new List<ClassInfo>();
-            string[] subjects = { "Math", "Science", "History", "English", "Physics", 
-                               "Chemistry", "Biology", "Art", "Music", "Geography" };
-            string[] levels = { "101", "201", "301", "Advanced", "Basic", "Intro" };
-            string[] descriptors = { "Fundamentals", "Principles", "Concepts", "Applications", "Theory" };
-
-            int id = 1;
-            while (id <= 100)
-            {
-                string subject = subjects[random.Next(subjects.Length)];
-                string level = levels[random.Next(levels.Length)];
-                string descriptor = descriptors[random.Next(descriptors.Length)];
-
-                classList.Add(new ClassInfo
-                {
-                    Id = id,
-                    ClassName = $"{subject} {level}",
-                    StudentCount = random.Next(15, 50),
-                    Description = $"{level} {descriptor} of {subject}"
-                });
-                id++;
-            }
-
-            return classList;
-        }
-
-        public IActionResult OnGet(int? currentPage)
+        public async Task<IActionResult> OnGetAsync(int? currentPage)
         {
             if (!IsUserAuthenticated())
             {
@@ -82,20 +61,28 @@ namespace MyRazorApp.Pages
 
             CurrentPage = currentPage ?? 1;
 
-            var query = _allClasses.AsQueryable();
+            var query = _context.Classes.Where(c => c.IsActive).AsQueryable(); // Only active classes
 
             if (!string.IsNullOrEmpty(FilterClassName))
-                query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
+                query = query.Where(c => c.Name.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
             if (FilterMinStudents.HasValue)
-                query = query.Where(c => c.StudentCount >= FilterMinStudents);
+                query = query.Where(c => c.PersonCount >= FilterMinStudents);
             if (FilterMaxStudents.HasValue)
-                query = query.Where(c => c.StudentCount <= FilterMaxStudents);
+                query = query.Where(c => c.PersonCount <= FilterMaxStudents);
 
-            TotalItems = query.Count();
-            Classes = query
+            TotalItems = await query.CountAsync();
+            Classes = await query
+                .OrderBy(c => c.Id)
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
-                .ToList();
+                .Select(c => new ClassInfo
+                {
+                    Id = c.Id,
+                    ClassName = c.Name,
+                    StudentCount = c.PersonCount,
+                    Description = c.Description
+                })
+                .ToListAsync();
 
             return Page();
         }
@@ -106,8 +93,8 @@ namespace MyRazorApp.Pages
             var tokenSession = HttpContext.Session.GetString("token");
             var sessionIdSession = HttpContext.Session.GetString("session_id");
 
-            if (string.IsNullOrEmpty(usernameSession) || 
-                string.IsNullOrEmpty(tokenSession) || 
+            if (string.IsNullOrEmpty(usernameSession) ||
+                string.IsNullOrEmpty(tokenSession) ||
                 string.IsNullOrEmpty(sessionIdSession))
             {
                 return false;
@@ -117,12 +104,12 @@ namespace MyRazorApp.Pages
             var tokenCookie = Request.Cookies["token"];
             var sessionIdCookie = Request.Cookies["session_id"];
 
-            return usernameCookie == usernameSession && 
-                   tokenCookie == tokenSession && 
+            return usernameCookie == usernameSession &&
+                   tokenCookie == tokenSession &&
                    sessionIdCookie == sessionIdSession;
         }
 
-        public IActionResult OnPostAdd()
+        public async Task<IActionResult> OnPostAddAsync()
         {
             if (!IsUserAuthenticated())
             {
@@ -131,42 +118,50 @@ namespace MyRazorApp.Pages
 
             if (!ModelState.IsValid)
             {
-                OnGet(CurrentPage);
+                await OnGetAsync(CurrentPage);
                 return Page();
             }
 
-            NewClass.Id = _allClasses.Any() ? _allClasses.Max(c => c.Id) + 1 : 1;
-            _allClasses.Add(NewClass);
+            var newClass = new Class
+            {
+                Name = NewClass.ClassName,
+                PersonCount = NewClass.StudentCount,
+                Description = NewClass.Description,
+                IsActive = true
+            };
 
-            TempData["HighlightClassId"] = NewClass.Id;
+            _context.Classes.Add(newClass);
+            await _context.SaveChangesAsync();
+
+            TempData["HighlightClassId"] = newClass.Id;
             return RedirectToPage();
         }
 
-        public IActionResult OnPostEdit(int id)
+        public async Task<IActionResult> OnPostEditAsync(int id)
         {
             if (!IsUserAuthenticated())
             {
                 return RedirectToPage("Login");
             }
 
-            var classToEdit = _allClasses.FirstOrDefault(c => c.Id == id);
+            var classToEdit = await _context.Classes.FindAsync(id);
             if (classToEdit != null)
             {
                 EditId = classToEdit.Id;
                 NewClass = new ClassInfo
                 {
                     Id = classToEdit.Id,
-                    ClassName = classToEdit.ClassName,
-                    StudentCount = classToEdit.StudentCount,
+                    ClassName = classToEdit.Name,
+                    StudentCount = classToEdit.PersonCount,
                     Description = classToEdit.Description
                 };
             }
 
-            OnGet(CurrentPage);
+            await OnGetAsync(CurrentPage);
             return Page();
         }
 
-        public IActionResult OnPostUpdate()
+        public async Task<IActionResult> OnPostUpdateAsync()
         {
             if (!IsUserAuthenticated())
             {
@@ -175,16 +170,19 @@ namespace MyRazorApp.Pages
 
             if (!ModelState.IsValid || !EditId.HasValue)
             {
-                OnGet(CurrentPage);
+                await OnGetAsync(CurrentPage);
                 return Page();
             }
 
-            var existing = _allClasses.FirstOrDefault(c => c.Id == EditId.Value);
+            var existing = await _context.Classes.FindAsync(EditId.Value);
             if (existing != null)
             {
-                existing.ClassName = NewClass.ClassName;
-                existing.StudentCount = NewClass.StudentCount;
+                existing.Name = NewClass.ClassName;
+                existing.PersonCount = NewClass.StudentCount;
                 existing.Description = NewClass.Description;
+
+                _context.Classes.Update(existing);
+                await _context.SaveChangesAsync();
 
                 TempData["HighlightClassId"] = existing.Id;
             }
@@ -192,16 +190,20 @@ namespace MyRazorApp.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             if (!IsUserAuthenticated())
             {
                 return RedirectToPage("Login");
             }
 
-            var toRemove = _allClasses.FirstOrDefault(c => c.Id == id);
-            if (toRemove != null)
-                _allClasses.Remove(toRemove);
+            var classToDeactivate = await _context.Classes.FindAsync(id);
+            if (classToDeactivate != null)
+            {
+                classToDeactivate.IsActive = false; // Soft delete
+                _context.Classes.Update(classToDeactivate);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToPage();
         }
@@ -216,7 +218,7 @@ namespace MyRazorApp.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnPostExportJson(string selectedColumns, bool exportFiltered)
+        public async Task<IActionResult> OnPostExportJsonAsync(string selectedColumns, bool exportFiltered)
         {
             if (!IsUserAuthenticated())
             {
@@ -225,24 +227,33 @@ namespace MyRazorApp.Pages
 
             try
             {
-                var selectedProps = !string.IsNullOrEmpty(selectedColumns) ? 
+                var selectedProps = !string.IsNullOrEmpty(selectedColumns) ?
                     selectedColumns.Split(',').ToList() : new List<string>();
 
-                var query = _allClasses.AsQueryable();
+                var query = _context.Classes.Where(c => c.IsActive).AsQueryable(); // Export only active
 
                 if (exportFiltered)
                 {
                     if (!string.IsNullOrEmpty(FilterClassName))
-                        query = query.Where(c => c.ClassName.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
+                        query = query.Where(c => c.Name.Contains(FilterClassName, StringComparison.OrdinalIgnoreCase));
                     if (FilterMinStudents.HasValue)
-                        query = query.Where(c => c.StudentCount >= FilterMinStudents);
+                        query = query.Where(c => c.PersonCount >= FilterMinStudents);
                     if (FilterMaxStudents.HasValue)
-                        query = query.Where(c => c.StudentCount <= FilterMaxStudents);
+                        query = query.Where(c => c.PersonCount <= FilterMaxStudents);
                 }
 
-                var exportData = query.ToList();
+                var exportData = await query
+                    .Select(c => new ClassInfo
+                    {
+                        Id = c.Id,
+                        ClassName = c.Name,
+                        StudentCount = c.PersonCount,
+                        Description = c.Description
+                    })
+                    .ToListAsync();
+
                 var json = Utils.Instance.ExportToJson(exportData, selectedProps);
-                
+
                 return File(Encoding.UTF8.GetBytes(json), "application/json", "classes.json");
             }
             catch (Exception ex)

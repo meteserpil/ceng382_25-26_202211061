@@ -1,175 +1,171 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Class Information";
+    ViewData["Title"] = "Class Management";
 }
 
-<div class="container mt-4">
+<div class="container my-5">
     <div class="row">
-        <!-- Form Column -->
-        <div class="col-md-6">
-            <h2>@(Model.EditId.HasValue ? "Edit Class" : "Add New Class")</h2>
-            <form method="post">
-                <input type="hidden" asp-for="EditId" />
-                
-                <div class="form-group mb-3">
-                    <label asp-for="NewClass.ClassName" class="form-label">Class Name *</label>
-                    <input asp-for="NewClass.ClassName" class="form-control" required />
-                    <span asp-validation-for="NewClass.ClassName" class="text-danger"></span>
+        <!-- Left Column: Add/Edit Form -->
+        <div class="col-lg-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">@(Model.EditId.HasValue ? "Edit Class" : "Add New Class")</h5>
                 </div>
-                
-                <div class="form-group mb-3">
-                    <label asp-for="NewClass.StudentCount" class="form-label">Student Count *</label>
-                    <input asp-for="NewClass.StudentCount" class="form-control" required min="1" max="1000" />
-                    <span asp-validation-for="NewClass.StudentCount" class="text-danger"></span>
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="EditId" />
+
+                        <div class="mb-3">
+                            <label asp-for="NewClass.ClassName" class="form-label">Class Name *</label>
+                            <input asp-for="NewClass.ClassName" class="form-control" required />
+                            <span asp-validation-for="NewClass.ClassName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewClass.StudentCount" class="form-label">Student Count *</label>
+                            <input asp-for="NewClass.StudentCount" class="form-control" required min="1" max="1000" />
+                            <span asp-validation-for="NewClass.StudentCount" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="NewClass.Description" class="form-label">Description</label>
+                            <textarea asp-for="NewClass.Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="NewClass.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            @if (Model.EditId.HasValue)
+                            {
+                                <button type="submit" asp-page-handler="Update" class="btn btn-success">Update</button>
+                                <button type="submit" asp-page-handler="Cancel" class="btn btn-secondary">Cancel</button>
+                            }
+                            else
+                            {
+                                <button type="submit" asp-page-handler="Add" class="btn btn-primary">Add Class</button>
+                            }
+                        </div>
+                    </form>
                 </div>
-                
-                <div class="form-group mb-3">
-                    <label asp-for="NewClass.Description" class="form-label">Description</label>
-                    <textarea asp-for="NewClass.Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="NewClass.Description" class="text-danger"></span>
-                </div>
-                
-                <div class="form-group mb-3">
-                    @if (Model.EditId.HasValue)
-                    {
-                        <button type="submit" asp-page-handler="Update" class="btn btn-success">Update</button>
-                        <button type="submit" asp-page-handler="Cancel" class="btn btn-secondary">Cancel</button>
-                    }
-                    else
-                    {
-                        <button type="submit" asp-page-handler="Add" class="btn btn-primary">Add</button>
-                    }
-                </div>
-            </form>
+            </div>
         </div>
-        
-        <!-- Table Column -->
-        <div class="col-md-6">
-            <h2>Class List</h2>
-            
-            <form method="get" class="mb-3">
-                <div class="row g-3">
+
+        <!-- Right Column: Class Table -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Class List</h4>
+                <form method="post" asp-page-handler="ExportJson" class="d-inline">
+                    <input type="hidden" name="exportFiltered" value="false" />
+                    <input type="hidden" name="selectedColumns" id="selectedColumns" value="" />
+                    <button type="submit" class="btn btn-outline-success">Export JSON</button>
+                </form>
+            </div>
+
+            <form method="get" class="mb-4">
+                <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label asp-for="FilterClassName" class="form-label">Class Name</label>
                         <input asp-for="FilterClassName" class="form-control" />
                     </div>
                     <div class="col-md-3">
                         <label asp-for="FilterMinStudents" class="form-label">Min Students</label>
-                        <input asp-for="FilterMinStudents" type="number" min="1" class="form-control" />
+                        <input asp-for="FilterMinStudents" type="number" class="form-control" min="1" />
                     </div>
                     <div class="col-md-3">
                         <label asp-for="FilterMaxStudents" class="form-label">Max Students</label>
-                        <input asp-for="FilterMaxStudents" type="number" min="1" class="form-control" />
+                        <input asp-for="FilterMaxStudents" type="number" class="form-control" min="1" />
                     </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
                     </div>
                 </div>
             </form>
 
             @if (Model.Classes.Any())
             {
-                <div class="mb-3">
-                    <form method="post" asp-page-handler="ExportJson" class="d-inline">
-                        <input type="hidden" name="exportFiltered" value="false" />
-                        <input type="hidden" name="selectedColumns" id="selectedColumns" value="" />
-                        <button type="submit" class="btn btn-success">Export JSON</button>
-                    </form>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th><button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="Id">ID</button></th>
+                                <th><button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="ClassName">Class Name</button></th>
+                                <th><button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="StudentCount">Students</button></th>
+                                <th><button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="Description">Description</button></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var classInfo in Model.Classes)
+                            {
+                                <tr data-class-id="@classInfo.Id"
+                                    class="@(TempData["HighlightClassId"]?.ToString() == classInfo.Id.ToString() ? "table-success" : "")">
+                                    <td>@classInfo.Id</td>
+                                    <td>@classInfo.ClassName</td>
+                                    <td>@classInfo.StudentCount</td>
+                                    <td>@classInfo.Description</td>
+                                    <td class="d-flex gap-1">
+                                        <form method="post">
+                                            <button type="submit" asp-page-handler="Edit" asp-route-id="@classInfo.Id"
+                                                    class="btn btn-sm btn-warning">Edit</button>
+                                        </form>
+                                        <form method="post" onsubmit="return confirm('Are you sure?');">
+                                            <button type="submit" asp-page-handler="Delete" asp-route-id="@classInfo.Id"
+                                                    class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
 
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                <button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="Id">ID</button>
-                            </th>
-                            <th>
-                                <button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="ClassName">Class Name</button>
-                            </th>
-                            <th>
-                                <button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="StudentCount">Students</button>
-                            </th>
-                            <th>
-                                <button type="button" class="btn btn-sm btn-outline-primary column-selector" data-column="Description">Description</button>
-                            </th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var classInfo in Model.Classes)
-                        {
-                            <tr data-class-id="@classInfo.Id" 
-                                class="@(TempData["HighlightClassId"]?.ToString() == classInfo.Id.ToString() ? "table-success" : "")">
-                                <td>@classInfo.Id</td>
-                                <td>@classInfo.ClassName</td>
-                                <td>@classInfo.StudentCount</td>
-                                <td>@classInfo.Description</td>
-                                <td>
-                                    <form method="post" class="d-inline">
-                                        <button type="submit" asp-page-handler="Edit" asp-route-id="@classInfo.Id" 
-                                                class="btn btn-sm btn-warning">Edit</button>
-                                    </form>
-                                    <form method="post" class="d-inline">
-                                        <button type="submit" asp-page-handler="Delete" asp-route-id="@classInfo.Id" 
-                                                class="btn btn-sm btn-danger" 
-                                                onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                
+                <!-- Pagination -->
                 <nav aria-label="Page navigation">
-                    <ul class="pagination">
+                    <ul class="pagination justify-content-center">
                         @if (Model.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Page("Index", new { 
-                                    CurrentPage = Model.CurrentPage - 1, 
-                                    FilterClassName = Model.FilterClassName,
-                                    FilterMinStudents = Model.FilterMinStudents,
-                                    FilterMaxStudents = Model.FilterMaxStudents
-                                })">Previous</a>
+                                <a class="page-link" href="@Url.Page("Index", new {
+                                    CurrentPage = Model.CurrentPage - 1,
+                                    Model.FilterClassName,
+                                    Model.FilterMinStudents,
+                                    Model.FilterMaxStudents })">Previous</a>
                             </li>
                         }
-                        
+
                         @for (int i = 1; i <= Model.TotalPages; i++)
                         {
-                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                <a class="page-link" href="@Url.Page("Index", new { 
-                                    CurrentPage = i, 
-                                    FilterClassName = Model.FilterClassName,
-                                    FilterMinStudents = Model.FilterMinStudents,
-                                    FilterMaxStudents = Model.FilterMaxStudents
-                                })">@i</a>
+                            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                                <a class="page-link" href="@Url.Page("Index", new {
+                                    CurrentPage = i,
+                                    Model.FilterClassName,
+                                    Model.FilterMinStudents,
+                                    Model.FilterMaxStudents })">@i</a>
                             </li>
                         }
-                        
+
                         @if (Model.CurrentPage < Model.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Page("Index", new { 
-                                    CurrentPage = Model.CurrentPage + 1, 
-                                    FilterClassName = Model.FilterClassName,
-                                    FilterMinStudents = Model.FilterMinStudents,
-                                    FilterMaxStudents = Model.FilterMaxStudents
-                                })">Next</a>
+                                <a class="page-link" href="@Url.Page("Index", new {
+                                    CurrentPage = Model.CurrentPage + 1,
+                                    Model.FilterClassName,
+                                    Model.FilterMinStudents,
+                                    Model.FilterMaxStudents })">Next</a>
                             </li>
                         }
                     </ul>
                 </nav>
-                
-                <div class="text-muted">
-                    Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) to 
-                    @Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalItems) of 
-                    @Model.TotalItems classes
-                </div>
+
+                <p class="text-center text-muted small">
+                    Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) to
+                    @Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalItems) of
+                    @Model.TotalItems entries
+                </p>
             }
             else
             {
-                <div class="alert alert-info">No classes found matching your criteria.</div>
+                <div class="alert alert-info text-center">No classes found.</div>
             }
         </div>
     </div>
@@ -178,16 +174,15 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const selectedColumns = document.getElementById('selectedColumns');
             const columnSelectors = document.querySelectorAll('.column-selector');
-            
+
             let selectedColumnsArray = [];
-            
+
             columnSelectors.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const column = this.getAttribute('data-column');
-                    
                     if (selectedColumnsArray.includes(column)) {
                         selectedColumnsArray = selectedColumnsArray.filter(col => col !== column);
                         this.classList.remove('btn-primary');
@@ -197,11 +192,10 @@
                         this.classList.remove('btn-outline-primary');
                         this.classList.add('btn-primary');
                     }
-                    
                     selectedColumns.value = selectedColumnsArray.join(',');
                 });
             });
-            
+
             const highlightClass = '@(TempData["HighlightClassId"]?.ToString())';
             if (highlightClass) {
                 const row = document.querySelector(`tr[data-class-id="${highlightClass}"]`);
